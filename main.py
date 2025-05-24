@@ -116,6 +116,12 @@ def send_ai_response(driver, recipient):
         logging.error(f"❌ Failed to send message to {recipient}: {str(e)}")
         return {"recipient": recipient, "status": "failed", "error": str(e)}
 
+@app.get("/")
+def read_root():
+    """ Root endpoint to check if the server is running """
+    return {"message": "Welcome to the Alibaba AI Messaging Service!"}
+
+
 @app.post("/send_ai_messages/")
 def api_send_ai_messages(request: RecipientList):
     """ API endpoint to send AI-generated messages to multiple recipients """
