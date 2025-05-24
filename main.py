@@ -135,12 +135,12 @@ def api_send_ai_messages(request: RecipientList):
         close_pop = driver.find_elements(By.CLASS_NAME, "im-next-dialog-close")
         if close_pop:
             close_pop[0].click()
-            log_activity("🔒 Closed pop-up.")
+            print("🔒 Closed pop-up.")
 
         close_pop = driver.find_elements(By.CLASS_NAME, "close-icon")
         if close_pop:
             close_pop[0].click()
-            log_activity("🔒 Closed pop-up.")
+            print("🔒 Closed pop-up.")
 
         results = []
         for recipient in request.recipients:
