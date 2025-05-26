@@ -8,6 +8,7 @@ import logging
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List, Optional
+from selenium.webdriver.common.keys import Keys
 
 # Configure logging
 LOG_FILE = "app.log"
@@ -23,7 +24,7 @@ logging.basicConfig(
 app = FastAPI()
 
 MAIN_URL = "https://onetalk.alibaba.com/message/weblitePWA.htm?isGray=1&from=menu&hideMenu=1#/"
-BASE_URL = "https://i.alibaba.com/"
+BASE_URL = "https://alibaba.com/"
 COOKIES_FILE = "cookies.json"
 
 # Fallback replies
@@ -57,7 +58,7 @@ def start_browser():
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-popup-blocking")
     options.add_argument("--disable-infobars")
-    # options.add_argument("--headless=new")  # Uncomment if you want headless mode
+    options.add_argument("--headless=new") 
 
     driver = uc.Chrome(options=options)
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined});")
@@ -160,6 +161,7 @@ def api_send_ai_messages(request: RecipientList):
     driver = start_browser()
     try:
         login(driver)
+        random_delay(4, 7)
 
         close_pop = driver.find_elements(By.CLASS_NAME, "im-next-dialog-close")
         if close_pop:
