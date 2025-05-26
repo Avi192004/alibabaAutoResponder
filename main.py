@@ -58,7 +58,7 @@ def start_browser():
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-popup-blocking")
     options.add_argument("--disable-infobars")
-    options.add_argument("--headless=new") 
+    options.add_argument("--headless=new")  # Uncomment if you want headless mode
 
     driver = uc.Chrome(options=options)
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined});")
@@ -148,11 +148,9 @@ def send_ai_response(driver, recipient, custom_message=None):
         logging.error(f"❌ Failed to send message to {recipient}: {str(e)}")
         return {"recipient": recipient, "status": "failed", "error": str(e)}
 
-
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the Alibaba Messaging API."}
-
+    return {"message": "Welcome to the Alibaba AI Messaging API."}
 
 @app.post("/send_ai_messages/")
 def api_send_ai_messages(request: RecipientList):
@@ -161,7 +159,6 @@ def api_send_ai_messages(request: RecipientList):
     driver = start_browser()
     try:
         login(driver)
-        random_delay(4, 7)
 
         close_pop = driver.find_elements(By.CLASS_NAME, "im-next-dialog-close")
         if close_pop:
@@ -172,7 +169,14 @@ def api_send_ai_messages(request: RecipientList):
         if close_pop:
             close_pop[0].click()
             print("🔒 Closed pop-up.")
-        
+
+        random_delay(2, 5)
+
+        close_pop = driver.find_elements(By.CLASS_NAME, "im-next-btn")
+        if close_pop:
+            close_pop[2].click()
+            print("🔒 Closed pop-up.")
+
         results = []
         for item in request.recipients:
             random_delay(3, 7)
