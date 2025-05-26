@@ -147,6 +147,12 @@ def send_ai_response(driver, recipient, custom_message=None):
         logging.error(f"❌ Failed to send message to {recipient}: {str(e)}")
         return {"recipient": recipient, "status": "failed", "error": str(e)}
 
+
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Alibaba Messaging API."}
+
+
 @app.post("/send_ai_messages/")
 def api_send_ai_messages(request: RecipientList):
     logging.info(f"📩 Received request to send messages to {len(request.recipients)} recipients.")
